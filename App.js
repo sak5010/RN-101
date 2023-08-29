@@ -11,8 +11,16 @@ import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
+import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+const icons = {
+  Clouds: "cloudy",
+  Clear: "day-sunny",
+  Rain: "rain",
+  Snow: "snow",
+};
 
 export default function App() {
   const [errorMsg, setErrorMsg] = useState(null);
@@ -68,9 +76,16 @@ export default function App() {
           days.map((day, index) => {
             return (
               <View key={uuid()} style={styles.day}>
-                <Text style={styles.temp}>
-                  {parseFloat(day.main.temp).toFixed(1)}
-                </Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text style={styles.temp}>
+                    {parseFloat(day.main.temp).toFixed(1)}
+                  </Text>
+                  <Fontisto
+                    name={icons[day.weather[0].main]}
+                    size={38}
+                    color="black"
+                  />
+                </View>
                 <Text style={styles.description}>{day.weather[0].main}</Text>
                 <Text style={styles.tinyText}>
                   {day.weather[0].description}
@@ -105,7 +120,7 @@ const styles = StyleSheet.create({
   },
   temp: {
     marginTop: 50,
-    fontSize: 178,
+    fontSize: 128,
   },
   description: {
     marginTop: -30,

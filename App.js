@@ -6,15 +6,16 @@ import * as Location from "expo-location";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [region, setRegion] = useState("loading...");
+  const [days, setDays] = useState([]);
 
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
+        console.error(errorMsg);
         return;
       }
 
@@ -25,7 +26,6 @@ export default function App() {
         { latitude, longitude },
         { useGoogleMaps: false }
       );
-      setLocation(location[0]);
       setRegion(location[0].region);
     })();
   }, []);
